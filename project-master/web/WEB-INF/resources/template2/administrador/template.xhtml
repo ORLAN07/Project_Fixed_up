@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view locale="#{idioma.languageSelect}">
+
+
+        <h:head>
+            <f:event type="preRenderView" listener="#{controladorSesion.validarSesion()}"></f:event>
+            <ui:include src="/WEB-INF/resources/template2/administrador/head.xhtml"></ui:include>
+            <p:outputPanel/>  
+        </h:head>
+
+        <h:body id="abc">
+            <div class="wrapper md">
+
+                <!-- menu-->
+                <ui:include src="/WEB-INF/resources/template2/administrador/menu.xhtml"></ui:include>
+                <div class="main-panel">
+
+                    <!--navbar-->
+                    <ui:include src="/WEB-INF/resources/template2/administrador/header.xhtml"></ui:include>
+
+                    <!--contenido principal-->
+                    <div class="content">
+                        <div class="container-fluid">
+                            <div class="card">
+                                <div class="card-header" data-background-color="purple">
+                                    <ui:insert name="tituloCarta">
+                                        <!--insertar el titulo de la carta-->
+                                        "no se cargo el titulo de la carta" 
+                                    </ui:insert>
+                                </div>
+                                <div class="card-content table-responsive">
+                                    <ui:insert name="contenido">
+                                        <!--insertar el contenido principal-->
+                                        "no se cargo el contenido principal" 
+                                    </ui:insert>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="footer">
+                        <ui:include src="/WEB-INF/resources/template2/administrador/footer.xhtml"></ui:include>
+                    </footer>
+                </div>
+            </div>
+        </h:body>
+    </f:view>
+</html>

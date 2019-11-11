@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">
+    
+    <ui:define name="primerosScripts">
+        <link href="#{request.contextPath}/resources/formValidation/css/formValidation.css" rel="stylesheet" />
+        <script src="#{request.contextPath}/resources/formValidation/js/formValidation.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/formValidation/js/framework/bootstrap.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/formValidation/js/language/es_ES.js" type="text/javascript" ></script>
+    </ui:define>
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.envioEmailTitulo}
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <li >
+                        <h:link outcome="/#{p.url}">
+                            <i class="material-icons">#{p.icon}</i>
+                            <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                        </h:link>
+                    </li>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="#" class="btn btn-info ">#{msg.envioEmailBreadCrum}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.envioEmailCardboard}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content-box-large">
+                    <div class="panel-body">
+                        <h:form  id="form" prependId="false" class="form-horizontal" role="form">
+
+                            <p:growl id="growl" />
+
+                            <div class="form-group">
+                                <label for="destinatario" class="col-sm-2 control-label">#{msg.envioEmailDestinario}</label>
+                                <div class="col-sm-10">
+                                    <h:inputText class="form-control" a:name="destinatario" id="destinatario" required="true" a:placeholder="#{msg.envioEmailDestinarioPlaceholder}" value="#{controller.toMail}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="asunto" class="col-sm-2 control-label">#{msg.envioEmailAsunto}</label>
+                                <div class="col-sm-10">
+                                    <h:inputText class="form-control" a:name="asunto" id="asunto" required="true" a:placeholder="#{msg.envioEmailAsuntoPlaceholder}"  value="#{controller.subject}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mensaje" class="col-sm-2 control-label">#{msg.envioEmailMensaje}</label>
+                                <div class="col-sm-10">
+                                    <h:inputText class="form-control" a:name="mensaje" id="mensaje" required="true" a:placeholder="#{msg.envioEmailMensajePlaceholder}"  value="#{controller.message}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-3">
+                                    <b:commandButton onclick='PrimeFaces.ab({s: "enviar"});return false; PrimeFaces.ab({s: "j_idt112:saveBtn", u: "j_idt112:growl"});return false;' id="enviar" update="growl" action="#{controller.EmailEnviar()}" class="btn btn-primary" value="#{msg.universalBotonAceptar}" p:oncomplete="enviar()"></b:commandButton>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h:link styleClass="btn btn" outcome="/admin/index?faces-redirect=true" value="#{msg.universalBotonCancelar}"/>
+                                </div>
+                            </div>
+
+                            <p:blockUI block="abc" trigger="enviar" >
+                                #{msg.universalCargandoUiBlock}<br />
+                                <p:graphicImage value="/resources/img/ajaxloadingbar.gif" />
+                            </p:blockUI>
+
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+        <script>
+            $(document).ready(function () {
+                $('#form').formValidation({
+                    locale: "#{(idioma.languageSelect.language.startsWith('es', 0) ? 'es_ES': 'en_US')}",
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        
+                        asunto: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+                        mensaje: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+                        destinatario: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 80,
+                                    message: ''
+                                },
+                            }
+                        },
+
+                    }
+                });
+            });
+           
+            function limpiarForm() {
+                document.getElementById("form-usuario").reset();
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>
+

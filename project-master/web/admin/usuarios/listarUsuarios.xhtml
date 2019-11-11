@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.usuarioListarTitulo}
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <c:choose>
+                        <c:when test="#{p.idPermiso == 1}">
+                            <li class="active">
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li >
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="#" class="btn btn-info "> #{msg.usuarioBreadcrumListarUsuario}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.usuarioBreadcrumListarUsuario}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <ui:fragment rendered="#{controladorSesion.p.roles.get(0).idRol eq 1 or controladorSesion.p.roles.get(0).idRol eq 2}">
+            <h:form>
+                <ul class="nav navbar-nav navbar-link">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="material-icons">file_download</i>
+                        </a>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <h:commandLink>
+                                    #{msg.universalAPdf}
+                                    <p:dataExporter type="pdf" target="tabla" fileName="reporte" pageOnly="true"/>
+                                </h:commandLink>
+                            </li>
+                            <br/>
+                            <li>
+                                <h:commandLink>
+                                    #{msg.universalAExcel}
+                                    <p:dataExporter type="xls" target="tabla" fileName="reporte" pageOnly="true"/>
+                                </h:commandLink>
+                            </li>
+                            <br/>
+                            <li>
+                                <h:commandLink value="reporte jasper" actionListener="#{reporteUsuarios.exportarPDF()}"></h:commandLink>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <br/>
+                <div class="panel-heading">
+                    <div class="panel-options">
+                        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+                            <c:choose>
+                                <c:when test="#{p.idPermiso eq 2}">
+                                    <span style="float: right"><h:link outcome="/#{p.url}" value="#{msg.usuarioListarIngresarNuevo}">&nbsp;<i class="glyphicon glyphicon-plus"></i></h:link></span><br></br>
+                                </c:when>
+                            </c:choose>
+                        </c:forEach>                       
+                    </div>
+                </div>
+                <p:dataTable value="#{listarUsuarios.persona}" var="lp" id="tabla" class="table" scrollable="true" scrollWidth="100%" paginator="true" rows="10" widgetVar="tabla1">
+                    <p:column headerText="#{msg.usuarioListarId}" width="200"> 
+                        <p:outputLabel value="#{lp.idPersona}"></p:outputLabel>                                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarDocumento}" filterBy="#{lp.documento}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.documento}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarNombre}" filterBy="#{lp.nombre}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.nombre}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarApellido}" filterBy="#{lp.apellido}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.apellido}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarPassword}" filterBy="#{lp.password}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.password}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarTelefono}" filterBy="#{lp.telefono}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.telefono}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarDireccion}" filterBy="#{lp.direccion}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.direccion}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarCorreo}" filterBy="#{lp.email}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.email}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarFechaNacimiento}" filterBy="#{lp.fechaNacimiento}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.fechaNacimiento}"><f:convertDateTime pattern="yyyy/MM/dd" /></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarFechaRegistro}" filterBy="#{lp.fechaIngreso}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.fechaIngreso}"><f:convertDateTime pattern="yyyy/MM/dd" /></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarUltimaVez}" filterBy="#{lp.ultimaVez}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{(lp.ultimaVez eq null ? 'no se ha validado':lp.ultimaVez)}"><f:convertDateTime pattern="yyyy/MM/dd" /></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarRol}" filterBy="#{lp.roles}" filterMatchMode="exact" width="200">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabla1').filter()" style="width:150px;" >
+                                <f:selectItem itemLabel="#{msg.universalPrimefacesSeleccione}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{listarUsuarios.listaRolesListarUsuario}" var="listaRolesListarUsuario" itemValue="#{listaRolesListarUsuario.nombreRol}" itemLabel="#{listaRolesListarUsuario.nombreRol}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <p:outputLabel value="#{(lp.roles.get(0) != null ? lp.roles.get(0).nombreRol:'')}" >
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarArea}"  filterBy="#{lp.areasIdArea.nombreArea}" filterMatchMode="contains" width="200">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabla1').filter()" style="width:150px;" >
+                                <f:selectItem itemLabel="#{msg.universalPrimefacesSeleccione}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{listarUsuarios.listaAreas}" var="listaAreas" itemValue="#{listaAreas.nombreArea}" itemLabel="#{listaAreas.nombreArea}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <p:outputLabel value="#{lp.areasIdArea}" converter="areaConverter"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.usuarioListarEstado}" filterBy="#{lp.estado}" filterMatchMode="contains" width="200">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabla1').filter()" style="width:150px;" >
+                                <f:selectItem itemLabel="#{msg.universalPrimefacesSeleccione}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItem itemLabel="Inactivo" itemValue="0"/>
+                                <f:selectItem itemLabel="Activo" itemValue="1"/>
+                            </p:selectOneMenu>
+                        </f:facet>                    <p:outputLabel value="#{(lp.estado == 1 ? 'activo':'inactivo')}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.universalOpciones}" exportable="false" width="100" style="text-align: center;">
+                        <p:commandButton icon="ui-icon-pencil" title="#{msg.universalEditar}" action="#{listarUsuarios.preparacionEditar(lp)}" ajax="false" rendered="#{(controladorSesion.p.roles.get(0).getIdRol() eq 1) or (lp.roles.get(0).getIdRol() > controladorSesion.p.roles.get(0).getIdRol())}"></p:commandButton>                    
+                    </p:column>
+
+                </p:dataTable>
+            </h:form>
+        </ui:fragment>
+    </ui:define>
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+        <script>
+
+
+        </script>
+
+    </ui:define>
+
+</ui:composition>
+

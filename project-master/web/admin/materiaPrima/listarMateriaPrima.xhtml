@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.listarMateria}
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <c:choose>
+                        <c:when test="#{p.idPermiso == 8}">
+                            <li class="active">
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li >
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="#" class="btn btn-info "> #{msg.listarMateria}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.materiaRegistrada}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <h:form>
+            <ul class="nav navbar-nav navbar-link">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        <i class="material-icons">file_download</i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <h:commandLink>
+                                a pdf
+                                <p:dataExporter type="pdf" target="tabla" fileName="reporte" pageOnly="true"/>
+                            </h:commandLink>
+                        </li>
+                        <br/>
+                        <li>
+                            <h:commandLink>
+                                a excel
+                                <p:dataExporter type="xls" target="tabla" fileName="reporte" pageOnly="true"/>
+                            </h:commandLink>
+                        </li>
+                        <br/>
+                        <li>
+                            <h:commandLink value="reporte jasper" actionListener="#{reporteMateriaPrima.exportarPDF()}"></h:commandLink>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <br/>
+
+            <div class="panel-heading">
+                <div class="panel-options">
+                    <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+                        <c:choose>
+                            <c:when test="#{p.idPermiso eq 9}">
+                                <span style="float: right"><h:link outcome="/#{p.url}" value="ingresar materia prima">&nbsp;<i class="glyphicon glyphicon-plus"></i></h:link></span><br></br>
+                            </c:when>
+                        </c:choose>
+                    </c:forEach>                       
+                </div>
+            </div>
+
+            <p:dataTable value="#{listarMateriaPrima.listaMateriaPrima}" var="lp" id="tabla">
+                <p:column headerText="id">
+                    <p:outputLabel value="#{lp.idMateria}"></p:outputLabel>                                
+                </p:column>
+                <p:column headerText="#{msg.referencia}" filterBy="#{lp.referencia}" filterMatchMode="contains" >
+                    <p:outputLabel value="#{lp.referencia}"></p:outputLabel>                
+                </p:column>
+                <p:column headerText="#{msg.tipo}"  filterBy="#{lp.tipoMateriaPrima}" filterMatchMode="contains">
+                    <p:outputLabel value="#{lp.tipoMateriaPrima}"></p:outputLabel>                
+                </p:column>
+                <p:column headerText="#{msg.calibre}" filterBy="#{lp.calibre}" filterMatchMode="contains">
+                    <p:outputLabel value="#{lp.calibre}"></p:outputLabel>                
+                </p:column>
+                <p:column headerText="#{msg.largoLamina}" filterBy="#{lp.dimensionLargo}" filterMatchMode="contains">
+                    <p:outputLabel value="#{lp.dimensionLargo}"></p:outputLabel>                
+                </p:column>
+                <p:column headerText="#{msg.altoLamina}"  filterBy="#{lp.dimensionAlto}" filterMatchMode="contains">
+                    <p:outputLabel value="#{lp.dimensionAlto}"></p:outputLabel>                
+                </p:column>
+                <p:column headerText="#{msg.altoLamina}"  filterBy="#{lp.dimensionAlto}" filterMatchMode="contains">
+                    <ui:repeat value="#{lp.proveedorList}" var="pl">
+                        <p:outputLabel value="#{pl.nombreEmpresa}"></p:outputLabel> 
+                    </ui:repeat>
+                </p:column>
+                <p:column headerText="#{msg.opciones}" exportable="false">
+                    <p:commandButton value="#{msg.editar}" action="#{listarMateriaPrima.prepararEditar(lp)}" ajax="false"></p:commandButton>                    
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+        <script>
+        </script>
+
+    </ui:define>
+
+</ui:composition>

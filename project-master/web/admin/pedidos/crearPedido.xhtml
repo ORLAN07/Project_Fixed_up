@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <ui:define name="primerosScripts">
+        <link href="#{request.contextPath}/resources/formValidation/css/formValidation.css" rel="stylesheet" />
+        <script src="#{request.contextPath}/resources/formValidation/js/formValidation.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/formValidation/js/framework/bootstrap.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/formValidation/js/language/es_ES.js" type="text/javascript" ></script>
+    </ui:define>
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.pedidoCrearTitulo}
+    </ui:define>
+
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="/foie_gras/admin/pedidos/listarPedidos.xhtml" class="btn btn-default visible-lg-block visible-md-block ">#{msg.pedidoBreadcrumListarPedido}</a>
+        <a href="#" class="btn btn-info ">#{msg.pedidoBreadcrumCrearPedido}</a>
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <c:choose>
+                        <c:when test="#{p.idPermiso == 22}">
+                            <li class="active">
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li >
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.pedidoCardboardIngresarPedido}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <ui:fragment rendered="#{controladorSesion.p.roles.get(0).idRol eq 1 or controladorSesion.p.roles.get(0).idRol eq 2 or controladorSesion.p.roles.get(0).idRol eq 3}">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content-box-large">
+                        <div class="panel-body">
+
+                            <h:form id="form" prependId="false" class="form-horizontal" role="form">
+
+                                <div class="form-group">
+                                    <label for="nombreProyecto" class="col-sm-2 control-label">#{msg.pedidoCrearNombre}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="nombreProyecto"  class="form-control" id="nombreProyecto" a:placeholder="#{msg.pedidoCrearNombrePlaceholder}" value="#{crearPedido.pedido.nombreProyecto}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="descripcion" class="col-sm-2 control-label">#{msg.pedidoCrearDescripcion}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="descripcion"  class="form-control" id="descripcion" a:placeholder="#{msg.pedidoCrearDescripcionPlaceholder}" value="#{crearPedido.pedido.descripcion}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="cantidad" class="col-sm-2 control-label">#{msg.pedidoCrearCantidad}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="cantidad"  class="form-control" id="cantidad" a:placeholder="#{msg.pedidoCrearCantidadPlaceholder}" value="#{crearPedido.pedido.cantidad}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nombreCliente" class="col-sm-2 control-label">#{msg.pedidoCrearNombreCliente}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="nombreCliente"  class="form-control" id="nombreCliente" a:placeholder="#{msg.pedidoCrearNombreClientePlaceholder}" value="#{crearPedido.pedido.nombreCliente}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="telefonoCliente"  class="col-sm-2 control-label">#{msg.pedidoCrearTelefonoCliente}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="telefonoCliente"  class="form-control" id="telefonoCliente" a:placeholder="#{msg.pedidoCrearTelefonoPlaceholder}" value="#{crearPedido.pedido.telefonoCliente}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="correoCliente" class="col-sm-2 control-label">#{msg.pedidoCrearCorreoCliente}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="correoCliente"  class="form-control" id="correoCliente" a:placeholder="#{msg.pedidoCrearCorreoPlaceholder}" value="#{crearPedido.pedido.correoCliente}"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="pago"  class="col-sm-2 control-label">#{msg.pedidoCrearRealizoPago}</label>
+                                    <div class="col-sm-10">
+                                        <b:selectOneMenu value = "#{crearPedido.pedido.realizoPago}"> 
+                                            <f:selectItem itemValue = "0" itemLabel = "#{msg.pedidoCrearRealizoPagoNo}" /> 
+                                            <f:selectItem itemValue = "1" itemLabel = "#{msg.pedidoCrearRealizoPagoSi}" /> 
+                                        </b:selectOneMenu> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="materiaPrima"  class="col-sm-2 control-label">#{msg.pedidoCrearMateriaPrima}</label>
+                                    <div class="col-sm-10">
+                                        <b:selectOneMenu value = "#{crearPedido.pedido.materiasPrimaIdMateria}"> 
+                                            <f:selectItems value="#{crearPedido.listaMateriaPrima}" var="lmp" itemLabel="#{lmp.referencia}" /> 
+                                        </b:selectOneMenu> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-3">
+                                        <p:commandButton  id="enviar" update="error-message" action="#{crearPedido.crear()}" class="btn btn-primary" value="#{msg.universalBotonAceptar}"></p:commandButton> 
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <h:link styleClass="btn btn" outcome="/admin/pedidos/listarPedidos.xhtml?faces-redirect=true" value="#{msg.universalBotonCancelar}"/>
+                                    </div>
+                                </div>
+
+                                <b:messages id="error-message" only-most-severe="true" large-screen="full-width" />
+                                
+                                <p:blockUI block="abc" trigger="enviar" >
+                                    #{msg.universalCargandoUiBlock}<br />
+                                    <p:graphicImage value="/resources/img/ajaxloadingbar.gif" />
+                                </p:blockUI>
+                                
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:fragment>
+    </ui:define>
+
+    <ui:define name="ultimosScripts">
+        <script>
+              $(document).ready(function () {
+                $('#form').formValidation({
+                    locale: "#{(idioma.languageSelect.language.startsWith('es', 0) ? 'es_ES': 'en_US')}",
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        nombreProyecto: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+                        descripcion: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+                        nombreCliente: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+                        correoCliente: {
+                            validators: {
+                                notEmpty: {
+
+                                },
+                                emailAddress: {
+
+                                }
+                            }
+                        },
+
+                        cantidad: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                phone: {
+                                    country: 'CO'
+                                }
+                            }
+                        },
+                        telefonoCliente: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                phone: {
+                                    country: 'CO'
+                                }
+                            }
+                        },
+
+                    }
+                });
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

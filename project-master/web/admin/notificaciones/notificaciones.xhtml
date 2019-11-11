@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.notificacionesTitulo}
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <li >
+                        <h:link outcome="/#{p.url}">
+                            <i class="material-icons">#{p.icon}</i>
+                            <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                        </h:link>
+                    </li>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="#" class="btn btn-info ">#{msg.notificacionesBreadCrum}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.notificacionesCardboard}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <p:dataTable value="#{controladorSesion.listaNotificacionesVista}" var="ln" id="tabla" class="table" scrollable="true" scrollWidth="100%" paginator="true" rows="10" widgetVar="tabla1">
+            <p:column headerText="#{msg.notificacionesId}" width="10"> 
+                <p:outputLabel value="#{ln.id}"></p:outputLabel>                                
+            </p:column>
+            <p:column headerText="#{msg.notificacionesAsunto}" width="100" filterBy="#{lp.nombreProyecto}" filterMatchMode="contains">
+                <p:outputLabel value="#{ln.asunto}"></p:outputLabel>                
+            </p:column>
+            <p:column headerText="#{msg.notificacionesMensaje}" width="400" filterBy="#{lp.nombreProyecto}" filterMatchMode="contains">
+                <p:outputLabel value="#{ln.mensaje}"></p:outputLabel>                
+            </p:column>
+            <p:column headerText="#{msg.notificacionesFecha}" width="100" filterBy="#{lp.nombreProyecto}" filterMatchMode="contains">
+                <p:outputLabel value="#{ln.fechaEnvio}"><f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss" /></p:outputLabel>                
+            </p:column>
+        </p:dataTable>
+    </ui:define>
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+
+    </ui:define>
+
+</ui:composition>
+

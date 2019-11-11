@@ -1,0 +1,247 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    font-family: 'Josefin Sans', sans-serif;
+    background-color: #dbdbdb;
+}
+
+.container-fluid{
+    width: 100%;
+
+
+}
+.navbar-static-top {
+  margin-bottom:20px;
+}
+
+i {
+  font-size:16px;
+}
+
+.header{
+  background-color: #253238;
+   margin-bottom:20px;
+}
+
+#imagen{
+    width: 0%;
+}
+
+#letras{
+    color: #fff;
+}
+
+#interno{
+    color: #fff;
+}
+
+h1{
+    float: left;
+    font-family: 'Dosis', sans-serif;
+    font-weight: lighter;
+    color: #253238; 
+}
+
+
+header{
+    width: 100%;
+    height: 50px;
+    background-color: #003744;
+    color: #000;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+}
+
+.contenedor{
+
+    width: 98%;
+    margin: auto;
+}
+
+ul{
+    list-style: none;
+}
+
+header .contenedor{
+    display: table;
+}
+
+section{
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+p{
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    padding-top: 25px;
+}
+
+#misionvision{
+    text-align: justify;
+    font-size: 20px;
+    margin-top: 25px;
+    color: #000;
+}
+
+h2{
+    text-align: center;
+    font-size: 35px;
+    margin-top: 20px;
+}
+
+footer .contenedor{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+#logotipo h1{
+    color: #818080;
+    width: 100%;
+    text-align: center;
+}
+.copy {
+    font-size: 20px;
+    margin-bottom: 15px;
+    
+}
+
+.sociales{
+    width: 100%;
+    text-align: center;
+    font-size: 38px;
+}
+
+.sociales a{
+    color: #003744;
+    text-decoration: none;
+    transition: all .5s;
+}
+
+.sociales a:hover{
+    color: #003744;
+    padding: 4px;
+    border-radius: 20%;
+    background-color: #E5FFFF;
+}
+
+@media (min-width:960px) {
+    .contenedor {
+        width: 960px;
+    }
+}
+
+@media (min-width:768px) {
+    .sociales {
+        width: auto;
+        margin-top: 20px;
+    }
+    
+    footer .contenedor {
+        justify-content: space-between;
+    }
+    
+    .copy {
+        margin-top: 15px;
+    }
+}
+#info{
+    background-color: #fff;
+}
+.main{
+    width: 90%;
+    max-width: 1000px;
+    margin: 20px auto;
+    overflow: hidden;
+}
+
+.slides.img {
+    width: 80%;
+    margin-top: 200px;
+}
+.slidesjs-pagination{
+    background:#424242;
+    list-style:none;
+    overflow: hidden;  
+}
+.slidesjs-pagination li{
+    float: left;
+}
+.slidesjs-pagination li a {
+    display: block;
+    padding: 20px 20px;
+    color: #fff;
+    text-decoration: none;
+}
+.slidesjs-pagination li a:hover {
+    background: #000; 
+}
+.slides .active {
+    background: #000;
+}
+.slidesjs-navigation {
+    background:  #000;
+    color:  #fff;
+    text-decoration: none;
+    display: inline-block;
+    padding:  20px 20px;
+    float: right;
+}
+
+
+#destacado .contenedor{
+    display: flex;
+    justify-content: center;
+    flex-flow: row wrap;
+    margin-top: 25px;
+}
+
+#destacado article{
+    margin: 15px;
+}
+
+
+#destacado img {
+    width: 100%;
+    max-width: 280px;
+    height: 180px;
+    border-radius: 10px;
+}
+
+#destacado h4{
+    text-align: center;
+    margin-bottom: 8px;
+    transform: translateY(104.5%);
+    height: 180px;
+    padding-top: 70px;
+    color: transparent;
+    margin-top: -190px;
+    font-size: 30px;
+    transition: all .5s;
+    border-radius: 10px;
+}
+
+#destacado h4:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #f5f5f5;
+  }
+
+.container-fluid{
+    background-color: #253238;
+}
+#contenedormain{
+height: 1500px;
+width: 1230px;
+margin: 0 auto;
+-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+background: #FFF;
+}
+

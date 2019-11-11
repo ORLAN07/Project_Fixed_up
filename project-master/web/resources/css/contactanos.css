@@ -1,0 +1,199 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body{
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.container-fluid{
+    width: 100%;
+    background-color: #253238;
+
+}
+.navbar-static-top {
+  margin-bottom:20px;
+}
+
+
+.contenedor{
+
+    width: 98%;
+    margin: auto;
+}
+
+
+p{
+    font-family: 'Yanone Kaffeesatz', sans-serif;
+    padding-top: 25px;
+}
+
+
+
+footer .contenedor{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+.copy {
+    font-size: 20px;
+    margin-bottom: 15px;
+    
+}
+
+.sociales{
+    width: 100%;
+    text-align: center;
+    font-size: 38px;
+}
+
+.sociales a{
+    color: #003744;
+    text-decoration: none;
+    transition: all .5s;
+}
+
+.sociales a:hover{
+    color: #003744;
+    padding: 4px;
+    border-radius: 20%;
+    background-color: #E5FFFF;
+}
+
+@media (min-width:960px) {
+    .contenedor {
+        width: 960px;
+    }
+}
+
+@media (min-width:768px) {
+    .sociales {
+        width: auto;
+        margin-top: 20px;
+    }
+    
+    footer .contenedor {
+        justify-content: space-between;
+    }
+    
+    .copy {
+        margin-top: 15px;
+    }
+}
+
+.fullmain{
+    height: 100%;
+    width: 100%;
+    margin-right: 6000px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+#right{
+    height: 0px;
+    width: 50%;
+    margin-top: 250px;
+    margin-right: 5215%;
+}
+#left{
+    height: 0px;
+    width: 30%;
+    padding-top: 120px;
+
+}
+#contactanos{
+    width: 20%;
+    height: 20%;
+    margin-top: 5%;
+}
+form{
+    background: #253238;
+    width: 50%;
+    border: 1px solid #4e4d4d;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    box-shadow: inset 0 0 10px #000;
+    margin-left: 310px;
+    font-family: Arial, cursive;
+    margin-top: 20%;
+}
+form input{
+    width: 280px;
+    height: 35px;
+    padding: 0px 10px;
+    margin: 10px 30px;
+    color: #6d6d6d;
+    text-align: center;
+}
+form label{
+    text-align: center;
+    color: #fff;
+    font-weight: normal;
+    font-family: 'Josefin Sans', sans-serif;
+    text-decoration: none;
+    margin-top: 5px;
+    width: auto;
+    display: block;
+}
+form textarea{
+    color: #000;
+    font-weight: normal;
+    display: block;
+    margin: auto;
+}
+#submit_button{
+    width: 100px;
+    height: 30px;
+    margin: 20px 0px 15px 140px;
+}
+#textocontactenos{
+    width: 1000px;
+    height:80%;
+    color: #000;
+    font-family: Arial, cursive;
+    margin-left: 300px;
+    text-align: center;
+    margin-top: 5%;
+    font-size: 3em;
+    font-weight: bold;
+
+}
+#izquierdo label{
+    width: 50%;
+    height: 100%;
+    font-family: Arial, cursive;
+    margin-left: 50px;
+    margin-top: 500%;
+}
+#mapa{
+    width: 600px;
+    height:450;
+    margin-top: 12%;    
+}
+#left a{
+    margin-top: 500%;
+}
+#left label{
+    font-family: Arial, cursive;
+    font-weight: bold;
+    font-size: 15px;
+
+}
+#left h3{
+    font-size: 2em;
+}
+#contenedormain{
+height: 1300px;
+width: 1230px;
+margin: 0 auto;
+-moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+-webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+background: #FFF;
+}
+

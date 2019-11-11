@@ -1,0 +1,625 @@
+﻿********************Actualizado: 14-11-2017*********************
+
+Este es el dump de la base de datos para que pueda funcionar el proyecto. ejecutar en workbench y listo
+~~*Nota *: para que el proyecto funcionen les toca crear un usuario que se llame fixed_up y la contraseña 123, si no lo hacen les toca configurar el archivo glassfish resources.xml con el usuario root. Si crean el usuario le deben dar todos los permisos, desde phpMyAdmin es facil.~~
+*Nota 1: el sistema ya tiene como usuario por defecto root.
+*Nota 2: Si actualizan la base de datos, por favor cargar de nuevo el dump describiendo los cambios. gracias.
+*Nota 3: Solo hacer respaldos desde workbench
+	1. nuevo
+		nueva columna en la tabla proyectos
+		
+
+CREATE DATABASE  IF NOT EXISTS `proyecto_v3` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `proyecto_v3`;
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: proyecto_v3
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.1.26-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `areas`
+--
+
+DROP TABLE IF EXISTS `areas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `areas` (
+  `id_area` int(11) NOT NULL AUTO_INCREMENT COMMENT 'muestra el codigo del area',
+  `nombre_area` varchar(20) NOT NULL COMMENT 'muestra la descripcion del area',
+  PRIMARY KEY (`id_area`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `areas`
+--
+
+LOCK TABLES `areas` WRITE;
+/*!40000 ALTER TABLE `areas` DISABLE KEYS */;
+INSERT INTO `areas` VALUES (1,'administracion'),(2,'ventas'),(3,'manofactura');
+/*!40000 ALTER TABLE `areas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auditoria_clientes`
+--
+
+DROP TABLE IF EXISTS `auditoria_clientes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auditoria_clientes` (
+  `documento` int(11) NOT NULL,
+  `nombre` varchar(20) NOT NULL,
+  `apellido` varchar(20) NOT NULL,
+  `telefono` int(11) NOT NULL,
+  `direccion` varchar(30) NOT NULL,
+  `usuario` varchar(45) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tipo_accion` varchar(20) NOT NULL,
+  PRIMARY KEY (`documento`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auditoria_clientes`
+--
+
+LOCK TABLES `auditoria_clientes` WRITE;
+/*!40000 ALTER TABLE `auditoria_clientes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auditoria_clientes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auditoria_proyectos`
+--
+
+DROP TABLE IF EXISTS `auditoria_proyectos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auditoria_proyectos` (
+  `id_proyecto` int(11) NOT NULL,
+  `nombre_proyecto` varchar(40) NOT NULL,
+  `usuario` varchar(45) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tipo_accion` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_proyecto`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auditoria_proyectos`
+--
+
+LOCK TABLES `auditoria_proyectos` WRITE;
+/*!40000 ALTER TABLE `auditoria_proyectos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auditoria_proyectos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `auditoria_stocks`
+--
+
+DROP TABLE IF EXISTS `auditoria_stocks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auditoria_stocks` (
+  `id_stock` int(11) NOT NULL,
+  `stock` int(11) NOT NULL,
+  `fecha_ingreso` date NOT NULL,
+  `usuario` varchar(45) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tipo_accion` varchar(20) NOT NULL,
+  PRIMARY KEY (`id_stock`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auditoria_stocks`
+--
+
+LOCK TABLES `auditoria_stocks` WRITE;
+/*!40000 ALTER TABLE `auditoria_stocks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auditoria_stocks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ciudades`
+--
+
+DROP TABLE IF EXISTS `ciudades`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ciudades` (
+  `id_ciudad` int(11) NOT NULL AUTO_INCREMENT COMMENT 'muestra el codigo de la ciudad',
+  `nombre_ciudad` varchar(30) NOT NULL COMMENT 'muestra el nombre de la ciudad',
+  PRIMARY KEY (`id_ciudad`)
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ciudades`
+--
+
+LOCK TABLES `ciudades` WRITE;
+/*!40000 ALTER TABLE `ciudades` DISABLE KEYS */;
+INSERT INTO `ciudades` VALUES (1,'bogota'),(2,'medellin'),(3,'cali'),(4,'facatativa'),(5,'madrid'),(6,'AMAZONAS\r'),(7,'CALDAS\r'),(8,'CAQUETÃ\r'),(9,'CASANARE\r'),(10,'CAUCA\r'),(11,'CESAR\r'),(12,'CHOCÃ“\r'),(13,'CÃ“RDOBA\r'),(14,'CUNDINAMARCA\r'),(15,'GUAINÃA\r'),(16,'GUAVIARE\r'),(17,'HUILA\r'),(18,'LAGUAJIRA\r'),(19,'MAGDALENA\r'),(20,'META\r'),(21,'NARIÃ‘O\r'),(22,'NORTEDESANTANDER\r'),(23,'PUTUMAYO\r'),(24,'QUINDÃO\r'),(25,'RISARALDA\r'),(26,'SANANDRÃ‰SYROVIDENCIA\r'),(27,'SANTANDER\r'),(28,'SUCRE\r'),(29,'TOLIMA\r'),(30,'VALLEDELCAUCA\r'),(31,'VAUPÃ‰S\r'),(32,'VICHADA');
+/*!40000 ALTER TABLE `ciudades` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dificultades`
+--
+
+DROP TABLE IF EXISTS `dificultades`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dificultades` (
+  `id_dificultad` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id de la dificultad del proyecto',
+  `descripcion_dificultad` varchar(25) NOT NULL COMMENT 'descripcion de la dificultad. facil, media, dificil',
+  PRIMARY KEY (`id_dificultad`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dificultades`
+--
+
+LOCK TABLES `dificultades` WRITE;
+/*!40000 ALTER TABLE `dificultades` DISABLE KEYS */;
+INSERT INTO `dificultades` VALUES (1,'facil'),(2,'intermedio'),(3,'dificil'),(4,'sin asignar');
+/*!40000 ALTER TABLE `dificultades` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `estados`
+--
+
+DROP TABLE IF EXISTS `estados`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `estados` (
+  `id_estado` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id del estado del proyecto',
+  `descripcion_estado` varchar(30) NOT NULL COMMENT 'descripcion del estado del proyecto. pausa, iniciado, finalizado.',
+  PRIMARY KEY (`id_estado`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `estados`
+--
+
+LOCK TABLES `estados` WRITE;
+/*!40000 ALTER TABLE `estados` DISABLE KEYS */;
+INSERT INTO `estados` VALUES (1,'iniciado'),(2,'en pausa'),(3,'terminado'),(4,'novedad'),(5,'sin comenzar');
+/*!40000 ALTER TABLE `estados` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `materias_prima`
+--
+
+DROP TABLE IF EXISTS `materias_prima`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `materias_prima` (
+  `id_materia` int(11) NOT NULL AUTO_INCREMENT,
+  `referencia` varchar(50) DEFAULT NULL,
+  `tipo_materia_prima` varchar(50) DEFAULT NULL,
+  `calibre` int(11) NOT NULL COMMENT 'calibre de la materia prima (grosor).',
+  `dimension_largo` int(11) NOT NULL COMMENT 'largo de la lamina',
+  `dimension_alto` int(11) NOT NULL COMMENT 'alto de la lamina',
+  PRIMARY KEY (`id_materia`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `materias_prima`
+--
+
+LOCK TABLES `materias_prima` WRITE;
+/*!40000 ALTER TABLE `materias_prima` DISABLE KEYS */;
+INSERT INTO `materias_prima` VALUES (1,'poliestireno amarillo','Poliestireno',4,40,40),(2,'poliestireno transparente','Poliestireno',2,2,2);
+/*!40000 ALTER TABLE `materias_prima` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `notificaciones`
+--
+
+DROP TABLE IF EXISTS `notificaciones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notificaciones` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `asunto` varchar(100) NOT NULL,
+  `mensaje` varchar(250) NOT NULL,
+  `fecha_envio` datetime NOT NULL,
+  `is_leido` int(11) NOT NULL,
+  `personas_id_persona` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `personas_id_persona` (`personas_id_persona`),
+  CONSTRAINT `notificaciones_ibfk_1` FOREIGN KEY (`personas_id_persona`) REFERENCES `personas` (`id_persona`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notificaciones`
+--
+
+LOCK TABLES `notificaciones` WRITE;
+/*!40000 ALTER TABLE `notificaciones` DISABLE KEYS */;
+INSERT INTO `notificaciones` VALUES (1,'Nuevo proyecto','Se ha asignado el proyecto: prueba pedido. por favor iniciarlo lo mas pronto posible','2017-11-13 14:14:42',0,6),(2,'Movimiento pedido','El pedido prueba pedido se ha asignado al operario kevin galeano','2017-11-13 14:14:42',1,1),(3,'Movimiento pedido','El pedido prueba pedido se ha asignado al operario kevin galeano','2017-11-13 14:14:42',0,2),(4,'Movimiento pedido','El pedido prueba pedido se ha asignado al operario kevin galeano','2017-11-13 14:14:42',0,3),(5,'Movimiento proyecto','El proyecto prueba pedido ha iniciado','2017-11-13 14:43:35',1,1),(6,'Finalizacion proyecto','El proyecto prueba pedido ha finalizado','2017-11-13 14:44:35',1,1),(7,'Nuevo proyecto','Se ha asignado el proyecto: prueba pedido 2. por favor iniciarlo lo mas pronto posible','2017-11-13 14:58:06',0,7),(8,'Movimiento pedido','El pedido prueba pedido 2 se ha asignado al operario sofia  henao','2017-11-13 14:58:06',1,1),(9,'Movimiento pedido','El pedido prueba pedido 2 se ha asignado al operario sofia  henao','2017-11-13 14:58:06',0,2),(10,'Movimiento pedido','El pedido prueba pedido 2 se ha asignado al operario sofia  henao','2017-11-13 14:58:06',0,3),(11,'Movimiento proyecto','El proyecto prueba pedido 2 ha iniciado','2017-11-13 14:59:05',1,1),(12,'Vencimiento proyecto prueba pedido 2.','El proyecto acaba de finalizar, por favor tomar medidas y/o informar al cliente.','2017-11-13 15:00:56',0,7),(13,'Vencimiento proyecto prueba pedido 2.','El proyecto acaba de finalizar, por favor tomar medidas y/o informar al cliente.','2017-11-13 15:00:56',1,1),(14,'Nuevo proyecto','Se ha asignado el proyecto: prueba pedido 3. por favor iniciarlo lo mas pronto posible','2017-11-13 15:07:02',0,6),(15,'Movimiento pedido','El pedido prueba pedido 3 se ha asignado al operario kevin galeano','2017-11-13 15:07:03',1,1),(16,'Movimiento pedido','El pedido prueba pedido 3 se ha asignado al operario kevin galeano','2017-11-13 15:07:03',0,2),(17,'Movimiento pedido','El pedido prueba pedido 3 se ha asignado al operario kevin galeano','2017-11-13 15:07:03',0,3),(18,'Finalizacion proyecto','El proyecto prueba pedido 2 ha finalizado','2017-11-13 15:08:01',1,1),(19,'Movimiento proyecto','El proyecto prueba pedido 3 ha iniciado','2017-11-13 15:08:30',1,1),(20,'Vencimiento proyecto prueba pedido 3.','El proyecto acaba de finalizar, por favor tomar medidas y/o informar al cliente.','2017-11-13 15:08:30',0,6),(21,'Vencimiento proyecto prueba pedido 3.','El proyecto acaba de finalizar, por favor tomar medidas y/o informar al cliente.','2017-11-13 15:08:30',1,1);
+/*!40000 ALTER TABLE `notificaciones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `pedidos`
+--
+
+DROP TABLE IF EXISTS `pedidos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pedidos` (
+  `id_pedido` int(11) NOT NULL AUTO_INCREMENT COMMENT 'identificador del pedido',
+  `nombre_proyecto` varchar(30) NOT NULL,
+  `descripcion` varchar(50) NOT NULL COMMENT 'detalles especificos del proyecto',
+  `realizo_pago` tinyint(4) NOT NULL,
+  `esta_asignado` int(11) NOT NULL,
+  `cantidad` int(11) NOT NULL,
+  `nombre_cliente` varchar(50) NOT NULL,
+  `telefono_cliente` varchar(50) NOT NULL,
+  `correo_cliente` varchar(50) NOT NULL,
+  `movimiento_proyecto` varchar(75) DEFAULT NULL,
+  `materias_prima_id_materia` int(11) NOT NULL,
+  `vendedor_id_persona` int(11) NOT NULL,
+  PRIMARY KEY (`id_pedido`),
+  KEY `fk_pedidos_materias_prima1_idx` (`materias_prima_id_materia`),
+  KEY `fk_pedidos_personas1_idx` (`vendedor_id_persona`),
+  CONSTRAINT `fk_pedidos_materias_prima1` FOREIGN KEY (`materias_prima_id_materia`) REFERENCES `materias_prima` (`id_materia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pedidos_personas1` FOREIGN KEY (`vendedor_id_persona`) REFERENCES `personas` (`id_persona`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pedidos`
+--
+
+LOCK TABLES `pedidos` WRITE;
+/*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
+INSERT INTO `pedidos` VALUES (1,'prueba pedido','prueba pedido',1,1,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(2,'prueba pedido 2','prueba pedido 2',1,1,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(3,'prueba pedido 3','prueba pedido 3',1,1,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(4,'prueba pedido 4','prueba pedido 4',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(5,'prueba pedido 5','prueba pedido 5',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(6,'prueba pedido 6','prueba pedido 6',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(7,'prueba pedido 7','prueba pedido 7',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(8,'prueba pedido 8','prueba pedido 8',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(9,'prueba pedido 9','prueba pedido 9',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(10,'prueba pedido 10','prueba pedido 10',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(11,'prueba pedido 11','prueba pedido 11',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(12,'prueba pedido 12','prueba pedido 12',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(13,'prueba pedido 13','prueba pedido 13',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(14,'prueba pedido 14','prueba pedido 14',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(15,'prueba pedido 15','prueba pedido 15',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1),(16,'prueba pedido 16','prueba pedido 16',1,0,1,'edgar zamora','6694034','edzamora1@misena.edu.co','david zamora',1,1);
+/*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permisos`
+--
+
+DROP TABLE IF EXISTS `permisos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permisos` (
+  `id_permiso` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_permiso` varchar(45) NOT NULL,
+  `nombre_permiso_en` varchar(45) DEFAULT NULL,
+  `estado` int(11) NOT NULL,
+  `url` text,
+  `icon` varchar(45) DEFAULT NULL,
+  `permiso_padre` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_permiso`),
+  KEY `permiso_padre` (`permiso_padre`),
+  CONSTRAINT `permisos_ibfk_1` FOREIGN KEY (`permiso_padre`) REFERENCES `permisos` (`id_permiso`)
+) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permisos`
+--
+
+LOCK TABLES `permisos` WRITE;
+/*!40000 ALTER TABLE `permisos` DISABLE KEYS */;
+INSERT INTO `permisos` VALUES (1,'Usuarios','Users',1,'admin/usuarios/listarUsuarios.xhtml','account_box',NULL),(2,'Crear usuarios',NULL,1,'admin/usuarios/crearUsuario.xhtml','',1),(3,'Listar usuarios',NULL,1,'admin/usuarios/listarUsuarios.xhtml',NULL,1),(4,'Eliminar usuarios',NULL,1,NULL,NULL,1),(5,'Editar usuarios',NULL,1,'admin/usuarios/editar.xhtml',NULL,1),(6,'Estados usuarios',NULL,1,NULL,NULL,1),(7,'Reportes usuarios',NULL,1,NULL,NULL,1),(8,'Materia prima','raw materials',1,'admin/materiaPrima/listarMateriaPrima.xhtml','format_align_justify',NULL),(9,'Crear materia prima',NULL,1,'admin/materiaPrima/crearMateriaPrima.xhtml',NULL,8),(10,'Listar materia prima',NULL,1,NULL,'',8),(11,'Eliminar materia prima',NULL,1,NULL,NULL,8),(12,'Editar materia prima',NULL,1,'admin/materiaPrima/editarMateriaPrima.xhtml',NULL,8),(13,'Estados materia prima',NULL,1,NULL,NULL,8),(14,'Reportes materia prima',NULL,1,NULL,NULL,8),(15,'Proveedores','Suppliers',1,'admin/provedores/listarProveedores.xhtml','content_paste',NULL),(16,'Crear proveedores',NULL,1,'admin/provedores/crearProveedor.xhtml',NULL,15),(17,'Listar proveedores',NULL,1,NULL,'',15),(18,'Eliminar proveedores',NULL,1,NULL,NULL,15),(19,'Editar proveedores',NULL,1,'admin/provedores/editarProveedor.xhtml',NULL,15),(20,'Estados proveedores',NULL,1,NULL,NULL,15),(21,'Reportes proveedores',NULL,1,NULL,NULL,15),(22,'Pedidos','Orders',1,'admin/pedidos/listarPedidos.xhtml','attach_file',NULL),(23,'Crear pedidos',NULL,1,'admin/pedidos/crearPedido.xhtml',NULL,22),(24,'Listar pedidos',NULL,1,NULL,'',22),(25,'Eliminar pedidos',NULL,1,NULL,NULL,22),(26,'Editar pedidos',NULL,1,'admin/pedidos/editarPedido.xhtml',NULL,22),(27,'Estados pedidos',NULL,1,NULL,NULL,22),(28,'Reportes pedidos',NULL,1,NULL,NULL,22),(29,'Proyectos','Projects',1,'admin/proyectos/listarProyectos.xhtml','change_history',NULL),(30,'Crear proyectos',NULL,1,'admin/proyectos/crearProyecto.xhtml',NULL,29),(31,'Listar proyectos',NULL,1,NULL,'',29),(32,'Eliminar proyectos',NULL,1,NULL,NULL,29),(33,'Editar proyectos',NULL,1,'admin/proyectos/editarProyecto.xhtml',NULL,29),(34,'Estados proyectos',NULL,1,NULL,NULL,29),(35,'Reportes proyectos',NULL,1,NULL,NULL,29),(36,'Roles & permisos','Rols & permissions',1,'admin/roles/listarRoles.xhtml','group',NULL),(37,'Crear roles',NULL,1,'admin/roles/crearRoles.xhtml',NULL,36),(38,'Listar roles',NULL,1,NULL,NULL,36),(39,'Eliminar roles',NULL,1,NULL,NULL,36),(40,'Editar roles',NULL,1,NULL,NULL,36),(41,'Estados roles',NULL,1,NULL,NULL,36),(42,'Reportes roles',NULL,1,NULL,NULL,36),(43,'Mi cuenta','My account',1,'admin/dashboard/miCuenta.xhtml',NULL,NULL),(44,'Listar cuenta',NULL,1,NULL,NULL,43),(45,'Editar Cuenta',NULL,1,NULL,NULL,43),(46,'Stock & material','Stock & material',1,'admin/stock/listarStock.xhtml','remove_red_eye',NULL),(47,'Crear stock',NULL,1,'admin/stock/crearStock.xhtml',NULL,46),(48,'Listar stock',NULL,1,NULL,NULL,46),(49,'Eliminar stock',NULL,1,NULL,NULL,46),(50,'Editar stock',NULL,1,'admin/stock/editarStock.xhtml',NULL,46),(51,'Estado stock',NULL,1,NULL,NULL,46),(52,'Reporte stock',NULL,1,NULL,NULL,46),(53,'Asignar operario',NULL,1,'admin/pedidos/asignarOperario.xhtml',NULL,22);
+/*!40000 ALTER TABLE `permisos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `personas`
+--
+
+DROP TABLE IF EXISTS `personas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `personas` (
+  `id_persona` int(11) NOT NULL AUTO_INCREMENT,
+  `documento` int(11) NOT NULL COMMENT 'documento de identidad del personal',
+  `nombre` varchar(20) NOT NULL COMMENT 'nombre del personal',
+  `apellido` varchar(20) NOT NULL COMMENT 'apellido del personal',
+  `password` varchar(200) NOT NULL,
+  `telefono` int(11) NOT NULL COMMENT 'telefono del personal',
+  `direccion` varchar(30) NOT NULL COMMENT 'direccion del personal',
+  `email` varchar(30) NOT NULL,
+  `areas_id_area` int(11) NOT NULL,
+  `estado` int(11) NOT NULL,
+  `fecha_nacimiento` date NOT NULL,
+  `fecha_ingreso` date NOT NULL,
+  `ultima_vez` date DEFAULT NULL,
+  `imagen` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id_persona`),
+  UNIQUE KEY `documento` (`documento`),
+  KEY `fk_personas_areas1_idx` (`areas_id_area`),
+  CONSTRAINT `fk_personas_areas1` FOREIGN KEY (`areas_id_area`) REFERENCES `areas` (`id_area`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `personas`
+--
+
+LOCK TABLES `personas` WRITE;
+/*!40000 ALTER TABLE `personas` DISABLE KEYS */;
+INSERT INTO `personas` VALUES (1,10,'david','zamora','123',1,' occidente','edzamora1@misena.edu.co',1,1,'1992-10-04','2016-06-22','2017-11-13',NULL),(2,11,'alex','ramos benavides','123',2,'calle occidente','edzamora1@misena.edu.co',1,1,'1992-10-05','2016-06-22','2017-11-13',NULL),(3,12,'orlando','rubio','123',3,'calle occidente','orubio04@misena.edu.co',1,1,'1992-10-05','2016-06-22','2017-11-03',NULL),(4,13,'harrison','copasachoa','123',4,'calle occidente','edzamora1@misena.edu.co',2,1,'1992-10-05','2016-06-22','2017-11-03',NULL),(5,14,'manolo ','cardenas','123',5,'calle occidente','edzamora1@misena.edu.co',2,1,'1992-10-05','2016-06-22','2017-11-01',NULL),(6,15,'kevin','galeano','123',6,'calle occidente','edzamora1@misena.edu.co',3,1,'1992-10-05','2016-06-22','2017-11-12',NULL),(7,16,'sofia ','henao','123',7,'calle occidente','edzamora1@misena.edu.co',3,1,'1992-10-05','2016-06-22','2017-11-13',NULL),(8,17,'vendedor','ayudante','123456',8,'calle occidente','edzamora1@misena.edu.co',2,1,'1992-10-05','2016-06-22','2017-10-08',NULL),(9,18,'operario','ayudante','123456',9,'calle occidente','edzamora1@misena.edu.co',3,1,'1992-09-30','2016-06-17','2017-11-13',NULL);
+/*!40000 ALTER TABLE `personas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proveedores`
+--
+
+DROP TABLE IF EXISTS `proveedores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proveedores` (
+  `id_proveedor` int(11) NOT NULL AUTO_INCREMENT,
+  `nit_proveedor` varchar(20) NOT NULL COMMENT 'nit de la empresa ',
+  `nombre_empresa` varchar(30) NOT NULL COMMENT 'nombre de la empresa',
+  `direccion` varchar(25) NOT NULL COMMENT 'direccion de la empresa',
+  `telefono` int(11) NOT NULL COMMENT 'telefono de la empresa',
+  `representante_legal` varchar(30) NOT NULL COMMENT 'nombre del representante legal de la empresa',
+  `ciudades_id_ciudad` int(11) NOT NULL,
+  PRIMARY KEY (`id_proveedor`),
+  KEY `fk_proveedores_ciudades1_idx` (`ciudades_id_ciudad`),
+  CONSTRAINT `fk_proveedores_ciudades1` FOREIGN KEY (`ciudades_id_ciudad`) REFERENCES `ciudades` (`id_ciudad`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proveedores`
+--
+
+LOCK TABLES `proveedores` WRITE;
+/*!40000 ALTER TABLE `proveedores` DISABLE KEYS */;
+INSERT INTO `proveedores` VALUES (1,'2021','acricol','calle 5',2233,'daniel ortega',5),(2,'2022','acribest','calle 6',3344,'rubio moreno',2),(3,'2023','acrilicos de bogota','calle 7',4455,'fernando ojeda',3),(4,'2024','acrilicos de cundinamarca','calle 8',5566,'luis fernando',4),(5,'2025','acrilicos internacional','calle 9',6677,'ismael alveiro rondon',5),(7,'102030','empresa prueba carga','calle 90 carrera 15',123456,'Mauricio Cardenas',6);
+/*!40000 ALTER TABLE `proveedores` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proveedores_materias_prima`
+--
+
+DROP TABLE IF EXISTS `proveedores_materias_prima`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proveedores_materias_prima` (
+  `proveedores_id_proveedor` int(11) NOT NULL,
+  `materias_prima_id_materia` int(11) NOT NULL,
+  KEY `fk_proveedores_has_materias_prima_materias_prima1_idx` (`materias_prima_id_materia`),
+  KEY `fk_proveedores_has_materias_prima_proveedores1_idx` (`proveedores_id_proveedor`),
+  CONSTRAINT `fk_proveedores_has_materias_prima_materias_prima1` FOREIGN KEY (`materias_prima_id_materia`) REFERENCES `materias_prima` (`id_materia`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_proveedores_has_materias_prima_proveedores1` FOREIGN KEY (`proveedores_id_proveedor`) REFERENCES `proveedores` (`id_proveedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proveedores_materias_prima`
+--
+
+LOCK TABLES `proveedores_materias_prima` WRITE;
+/*!40000 ALTER TABLE `proveedores_materias_prima` DISABLE KEYS */;
+INSERT INTO `proveedores_materias_prima` VALUES (1,1),(2,2);
+/*!40000 ALTER TABLE `proveedores_materias_prima` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `proyectos`
+--
+
+DROP TABLE IF EXISTS `proyectos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `proyectos` (
+  `id_proyecto` int(11) NOT NULL AUTO_INCREMENT COMMENT 'codigo del proyecto',
+  `fecha_inicio` datetime DEFAULT NULL,
+  `fecha_finalizado` datetime DEFAULT NULL,
+  `tiempo_estimado` datetime DEFAULT NULL,
+  `correo_notificacion_enviado` int(11) NOT NULL,
+  `estados_id_estado` int(11) NOT NULL,
+  `dificultades_id_dificultad` int(11) NOT NULL,
+  `pedidos_id_pedido` int(11) NOT NULL,
+  `operario_id_persona` int(11) NOT NULL,
+  PRIMARY KEY (`id_proyecto`),
+  KEY `fk_proyectos_estados1_idx` (`estados_id_estado`),
+  KEY `fk_proyectos_dificultades1_idx` (`dificultades_id_dificultad`),
+  KEY `fk_proyectos_pedidos1_idx` (`pedidos_id_pedido`),
+  KEY `fk_proyectos_personas1_idx` (`operario_id_persona`),
+  CONSTRAINT `fk_proyectos_dificultades1` FOREIGN KEY (`dificultades_id_dificultad`) REFERENCES `dificultades` (`id_dificultad`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_proyectos_estados1` FOREIGN KEY (`estados_id_estado`) REFERENCES `estados` (`id_estado`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_proyectos_pedidos1` FOREIGN KEY (`pedidos_id_pedido`) REFERENCES `pedidos` (`id_pedido`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_proyectos_personas1` FOREIGN KEY (`operario_id_persona`) REFERENCES `personas` (`id_persona`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proyectos`
+--
+
+LOCK TABLES `proyectos` WRITE;
+/*!40000 ALTER TABLE `proyectos` DISABLE KEYS */;
+INSERT INTO `proyectos` VALUES (1,'2017-11-13 14:43:35','2017-11-13 14:44:35','2017-11-13 14:43:09',0,3,3,1,6),(2,'2017-11-13 14:59:04','2017-11-13 15:08:01','2017-11-13 00:00:00',1,3,4,2,7),(3,'2017-11-13 15:08:30',NULL,'2017-11-13 00:00:00',1,1,1,3,6);
+/*!40000 ALTER TABLE `proyectos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id_rol` int(11) NOT NULL AUTO_INCREMENT COMMENT 'identificador del rol',
+  `nombre_rol` varchar(20) NOT NULL COMMENT 'descripcion del rol',
+  `estado` int(11) NOT NULL,
+  PRIMARY KEY (`id_rol`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'root',1),(2,'administrador',1),(3,'vendedor',1),(4,'operario',1),(5,'operario ayudante',1),(6,'vendedor ayudante',1);
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles_permisos`
+--
+
+DROP TABLE IF EXISTS `roles_permisos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles_permisos` (
+  `roles_id_rol` int(11) NOT NULL,
+  `permisos_id_permiso` int(11) NOT NULL,
+  KEY `fk_roles_Permisos_permisos1_idx` (`permisos_id_permiso`),
+  KEY `fk_roles_Permisos_roles1` (`roles_id_rol`),
+  CONSTRAINT `fk_roles_Permisos_permisos1` FOREIGN KEY (`permisos_id_permiso`) REFERENCES `permisos` (`id_permiso`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_roles_Permisos_roles1` FOREIGN KEY (`roles_id_rol`) REFERENCES `roles` (`id_rol`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles_permisos`
+--
+
+LOCK TABLES `roles_permisos` WRITE;
+/*!40000 ALTER TABLE `roles_permisos` DISABLE KEYS */;
+INSERT INTO `roles_permisos` VALUES (1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(1,17),(1,18),(1,19),(1,20),(1,21),(1,22),(1,23),(1,24),(1,25),(1,26),(1,27),(1,28),(1,29),(1,30),(1,31),(1,32),(1,33),(1,34),(1,35),(1,36),(1,37),(1,38),(1,39),(1,40),(1,41),(1,42),(2,1),(2,2),(2,3),(2,5),(2,6),(2,7),(2,8),(2,9),(2,10),(2,12),(2,13),(2,14),(2,15),(2,16),(2,17),(2,19),(2,20),(2,21),(2,22),(2,23),(2,24),(2,26),(2,27),(2,28),(2,29),(2,30),(2,31),(2,33),(2,34),(2,35),(2,36),(2,37),(2,38),(2,40),(2,41),(2,42),(3,22),(3,23),(3,24),(3,26),(3,27),(3,28),(4,29),(4,30),(4,31),(4,33),(4,34),(4,35),(6,29),(6,31),(6,34),(1,43),(1,44),(1,45),(1,46),(1,47),(1,48),(1,49),(1,50),(1,51),(1,52),(1,53),(2,53),(3,53),(1,2),(1,4),(1,6),(1,5),(1,1),(1,3);
+/*!40000 ALTER TABLE `roles_permisos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles_personas`
+--
+
+DROP TABLE IF EXISTS `roles_personas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles_personas` (
+  `roles_id_rol` int(11) NOT NULL,
+  `personas_id_persona` int(11) NOT NULL,
+  KEY `fk_roles_has_personas_personas1_idx` (`personas_id_persona`),
+  KEY `fk_roles_has_personas_roles1_idx` (`roles_id_rol`),
+  CONSTRAINT `fk_roles_has_personas_personas1` FOREIGN KEY (`personas_id_persona`) REFERENCES `personas` (`id_persona`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_roles_has_personas_roles1` FOREIGN KEY (`roles_id_rol`) REFERENCES `roles` (`id_rol`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles_personas`
+--
+
+LOCK TABLES `roles_personas` WRITE;
+/*!40000 ALTER TABLE `roles_personas` DISABLE KEYS */;
+INSERT INTO `roles_personas` VALUES (1,1),(2,2),(2,3),(3,4),(3,5),(4,6),(4,7),(6,8),(5,9);
+/*!40000 ALTER TABLE `roles_personas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `stocks`
+--
+
+DROP TABLE IF EXISTS `stocks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stocks` (
+  `id_stock` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id del stock (bodega)',
+  `stock` int(11) NOT NULL COMMENT 'numero que hay de la materia prima',
+  `fecha_ingreso` date NOT NULL,
+  `fecha_actualizacion` date DEFAULT NULL,
+  `materias_prima_id_materia` int(11) NOT NULL,
+  PRIMARY KEY (`id_stock`),
+  KEY `fk_stocks_materias_prima1_idx` (`materias_prima_id_materia`),
+  CONSTRAINT `fk_stocks_materias_prima1` FOREIGN KEY (`materias_prima_id_materia`) REFERENCES `materias_prima` (`id_materia`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `stocks`
+--
+
+LOCK TABLES `stocks` WRITE;
+/*!40000 ALTER TABLE `stocks` DISABLE KEYS */;
+INSERT INTO `stocks` VALUES (1,72,'2017-09-29','2017-11-12',1),(2,0,'2017-10-04','2017-10-04',2);
+/*!40000 ALTER TABLE `stocks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'proyecto_v3'
+--
+
+--
+-- Dumping routines for database 'proyecto_v3'
+--
+/*!50003 DROP PROCEDURE IF EXISTS `sp_proyecto_fuera_de_plazo` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ALLOW_INVALID_DATES,ERROR_FOR_DIVISION_BY_ZERO,TRADITIONAL,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_proyecto_fuera_de_plazo`()
+begin
+create view vista_proyecto_vencido as
+select proyectos.id_proyecto, proyectos.nombre_proyecto, pedidos.id_pedido, pedidos.realizo_pago,
+timestampdiff(day, proyectos.fecha_inicio, curdate()) as dias,
+timestampdiff(day, proyectos.fecha_inicio, curdate())>30 as vencido 
+ from proyectos
+inner join pedidos on pedidos.id_pedido=proyectos.pedidos_id_pedido
+where pedidos.realizo_pago=1 and timestampdiff(day, proyectos.fecha_inicio, curdate())>30;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-11-14 19:16:54
+
+
+

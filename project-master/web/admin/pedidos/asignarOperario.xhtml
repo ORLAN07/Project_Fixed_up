@@ -1,0 +1,114 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.pedidoAsignarTitulo}
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <c:choose>
+                        <c:when test="#{p.idPermiso == 22}">
+                            <li class="active">
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li >
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="/foie_gras/admin/pedidos/listarPedidos.xhtml" class="btn btn-default visible-lg-block visible-md-block ">#{msg.pedidoBreadcrumListarPedido}</a>
+        <a href="#" class="btn btn-info ">#{msg.pedidoBreadcrumAsignarPedido}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.pedidoCardboardAsignarPedido}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <ui:fragment rendered="#{controladorSesion.p.roles.get(0).idRol eq 1 or controladorSesion.p.roles.get(0).idRol eq 2 or controladorSesion.p.roles.get(0).idRol eq 3}">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content-box-large">
+                        <div class="panel-body">
+
+                            <h:form id="form" prependId="false" class="form-horizontal" role="form">
+                                <p:growl id="growl" />
+                                <b:row>
+                                    <b:messages large-screen="full-width" />
+                                </b:row>
+
+                                <div class="form-group">
+                                    <label for="area" class="col-sm-2 control-label">#{msg.pedidoAsignarOperario} #{enviarPedidoAProyecto.pedidoSeleccionado.idPedido}</label>
+                                    <div class="col-sm-10">
+                                        <b:selectOneMenu value = "#{enviarPedidoAProyecto.operarioAsignado}" > 
+                                            <f:selectItems value="#{enviarPedidoAProyecto.listaOperariosDisponibles}" var="l" itemLabel = "#{l.nombre} #{l.apellido}" /> 
+                                        </b:selectOneMenu> 	
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-3">
+                                        <b:commandButton id="enviar" action="#{enviarPedidoAProyecto.asignarOperarioAProyecto()}" class="btn btn-primary" onclick='PrimeFaces.ab({s: "enviar"});return false;'  update="growl" value="#{msg.universalBotonAceptar}"></b:commandButton>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <h:link styleClass="btn btn" outcome="/admin/pedidos/listarPedidos.xhtml?faces-redirect=true" value="#{msg.universalBotonCancelar}"/>
+                                    </div>
+                                </div>
+
+                                <p:blockUI block="abc" trigger="enviar" >
+                                    #{msg.universalCargandoUiBlock}<br />
+                                    <p:graphicImage value="/resources/img/ajaxloadingbar.gif" />
+                                </p:blockUI>
+
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:fragment>
+    </ui:define>
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+        <script>
+
+        </script>
+    </ui:define>
+
+</ui:composition>

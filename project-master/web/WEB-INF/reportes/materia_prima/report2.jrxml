@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3ff8d02b-3c4e-4890-a002-983a2390003c">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="styl" forecolor="#000000" backcolor="#FF9900"/>
+	<parameter name="nombre" class="java.lang.String"/>
+	<field name="referencia" class="java.lang.String"/>
+	<field name="tipoMateriaPrima" class="java.lang.String"/>
+	<field name="calibre" class="java.lang.Integer"/>
+	<field name="dimensionLargo" class="java.lang.Integer"/>
+	<field name="dimensionAlto" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="74" splitType="Stretch">
+			<staticText>
+				<reportElement x="192" y="11" width="263" height="53" uuid="da59e29f-5688-438b-b420-20e4de1c8c2d"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[materia prima]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="273" y="5" width="100" height="20" uuid="9853a899-ac34-4142-a1c1-dde755dd0bb6"/>
+				<textFieldExpression><![CDATA[$P{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="styl" x="232" y="5" width="41" height="20" backcolor="#33FFCC" uuid="e32f21f2-48a8-415d-86b1-cf7b002809d7"/>
+				<text><![CDATA[Nombre: ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="111" height="20" uuid="e5e13cdb-5202-4562-9b45-3edcaaa95bb2"/>
+				<text><![CDATA[referencia]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="111" y="0" width="111" height="20" uuid="4459c395-bdad-4a31-9c31-e0db91a8fc26"/>
+				<text><![CDATA[tipo_materia_prima]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="222" y="0" width="111" height="20" uuid="696e4945-c274-4745-8eb4-c0ded43b534a"/>
+				<text><![CDATA[calibre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="333" y="0" width="111" height="20" uuid="52ce67a0-f451-4b20-87b6-7533386d005d"/>
+				<text><![CDATA[dimension_largo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="444" y="0" width="111" height="20" uuid="0e2550b2-a07d-4773-8bd2-b83941d5ca6d"/>
+				<text><![CDATA[dimension_alto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="111" height="20" uuid="afd895aa-91eb-4a3f-97e7-18aa13f5e54b"/>
+				<textFieldExpression><![CDATA[$F{referencia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="0" width="111" height="20" uuid="95e5ff1a-0fc5-4618-931e-990622cc2f3d"/>
+				<textFieldExpression><![CDATA[$F{tipoMateriaPrima}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="222" y="0" width="111" height="20" uuid="8fb75793-9e2f-425c-97ca-090bdbb61cd5"/>
+				<textFieldExpression><![CDATA[$F{calibre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="333" y="0" width="111" height="20" uuid="f8872dab-1897-4174-a414-625da5cfd97e"/>
+				<textFieldExpression><![CDATA[$F{dimensionLargo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="0" width="111" height="20" uuid="0e38d8a9-e821-4a3a-a051-b6c11d6ca5fe"/>
+				<textFieldExpression><![CDATA[$F{dimensionAlto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="23" width="555" height="1" uuid="3cdf8093-2cb6-43a0-9bc0-ced512146658"/>
+			</line>
+			<staticText>
+				<reportElement x="18" y="29" width="521" height="20" uuid="bc7abffa-f0c2-4bf4-b246-661ba3a06c0f"/>
+				<text><![CDATA[Fixed up                                                                                                                           Algunos derechos reservados]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

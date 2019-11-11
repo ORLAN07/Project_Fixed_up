@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="primerosScripts">
+        <link href="#{request.contextPath}/resources/formValidation/css/formValidation.css" rel="stylesheet" />
+        <script src="#{request.contextPath}/resources/formValidation/js/formValidation.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/formValidation/js/framework/bootstrap.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/formValidation/js/language/es_ES.js" type="text/javascript" ></script>
+    </ui:define>
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.dashboardEditarTitulo}
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <li >
+                        <h:link outcome="/#{p.url}">
+                            <i class="material-icons">#{p.icon}</i>
+                            <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                        </h:link>
+                    </li>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="/foie_gras/admin/dashboard/miCuenta.xhtml" class="btn btn-default visible-lg-block visible-md-block ">#{msg.dashboardBreadcrumMiperfi}</a>
+        <a href="#" class="btn btn-info ">#{msg.dashboardBreadcrumEditarperfil}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.dashboardCardboardEditarperfil}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content-box-large">
+                    <div class="panel-body">
+
+                        <h:form id="form-usuario" prependId="false" class="form-horizontal" role="form">
+
+                            <div class="form-group">
+                                <label for="contrasena" class="col-sm-2 control-label">#{msg.dashboardEditarperfilContraseña}</label>
+                                <div class="col-sm-10">
+                                    <h:inputText class="form-control" id="contrasena" a:type="password" a:name="contrasena" a:placeholder="#{msg.dashboardEditarperfilContraseñaPlaceholder}" value="#{listarPerfil.personaSeleccionada.password}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="repitaContrasena" class="col-sm-2 control-label">#{msg.dashboardEditarperfilContraseñaRepetir}</label>
+                                <div class="col-sm-10">
+                                    <h:inputText class="form-control" id="repitaContrasena" a:type="password" a:name="repitaContrasena" a:placeholder="#{msg.dashboardEditarperfilContraseñaRepetirPlaceholder}" value="#{listarPerfil.personaSeleccionada.password}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telefono" class="col-sm-2 control-label">#{msg.dashboardEditarperfilTelefono}</label>
+                                <div class="col-sm-10">
+                                    <h:inputText class="form-control" id="telefono" a:name="telefono" a:placeholder="#{msg.dashboardEditarperfilTelefonoPlaceholder}" value="#{listarPerfil.personaSeleccionada.telefono}"/>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="direccion" class="col-sm-2 control-label">#{msg.dashboardEditarperfilDireccion}</label>
+                                <div class="col-sm-10">
+                                    <h:inputText class="form-control" id="direccion" a:name="direccion" a:placeholder="#{msg.dashboardEditarperfilDireccionPlaceholder}" value="#{listarPerfil.personaSeleccionada.direccion}"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label">#{msg.dashboardEditarperfilCorreo}</label>
+                                <div class="col-sm-10">
+                                    <h:inputText class="form-control" id="email" a:name="email" a:placeholder="#{msg.dashboardEditarperfilCorreoPlaceholder}" value="#{listarPerfil.personaSeleccionada.email}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-3 col-sm-3">
+                                    <h:commandButton action="#{listarPerfil.actualizarPerfil()}" class="btn btn-primary" value="#{msg.universalBotonAceptar}"></h:commandButton>
+                                </div>
+                                <div class="col-sm-3">
+                                    <h:link styleClass="btn btn" outcome="/admin/dashboard/miCuenta.xhtml?faces-redirect=true" value="#{msg.universalBotonCancelar}"/>
+                                </div>
+                            </div>
+                        </h:form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+        <script>
+            $(document).ready(function () {
+                $('#form-usuario').formValidation({
+                    locale: "#{(idioma.languageSelect.language.startsWith('es', 0) ? 'es_ES': 'en_US')}",
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        contrasena: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 6,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+                        repitaContrasena: {
+                            validators: {
+                                notEmpty: {
+
+                                },
+                                identical: {
+                                    field: 'contrasena',
+                                    message: ''
+                                }
+                            }
+                        },
+                        telefono: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                phone: {
+                                    country: 'CO'
+                                }
+                            }
+                        },
+                        direccion: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    
+                                },
+
+                            }
+                        },
+                        email: {
+                            validators: {
+                                notEmpty: {
+
+                                },
+                                emailAddress: {
+                                    
+                                }
+                            }
+                        },
+
+                    }
+                });
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

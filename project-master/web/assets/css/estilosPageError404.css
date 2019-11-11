@@ -1,0 +1,49 @@
+body{
+	background-image: url("error-404-pressroom-de-hostalia-hosting1.jpg");   
+}
+.main{
+	display: flex;
+	position: relative;
+}
+.pagError{
+	top: 30%;
+	position: relative;
+	display: flex;
+
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+}
+.pagError__img{
+	display: flex;
+
+}
+.pagError__content{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.pagError__content .content{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.pagError__info{
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+.pagError__info .title{
+	width: 100%;
+}
+.pagError__info .btn{
+	width: 150px;
+	height: 35px;
+}
+.content{
+	color: #fff;
+}
+.title{
+	color: #fff;
+}

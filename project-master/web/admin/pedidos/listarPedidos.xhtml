@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml" 
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.pedidoListarTitulo}
+    </ui:define>
+ 
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <c:choose>
+                        <c:when test="#{p.idPermiso == 22}">
+                            <li class="active">
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li >
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="#" class="btn btn-info ">#{msg.pedidoBreadcrumListarPedido}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.pedidoBreadcrumListarPedido}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <ui:fragment rendered="#{controladorSesion.p.roles.get(0).idRol eq 1 or controladorSesion.p.roles.get(0).idRol eq 2 or controladorSesion.p.roles.get(0).idRol eq 3}">
+
+            <h:form>
+                <ul class="nav navbar-nav navbar-link">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="material-icons">file_download</i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <h:commandLink>
+                                    #{msg.universalAPdf}
+                                    <p:dataExporter type="pdf" target="tabla" fileName="reporte" pageOnly="true"/>
+                                </h:commandLink>
+                            </li>
+                            <br/>
+                            <li>
+                                <h:commandLink>
+                                    #{msg.universalAExcel}
+                                    <p:dataExporter type="xls" target="tabla" fileName="reporte" pageOnly="true"/>
+                                </h:commandLink>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <br/>
+                <div class="panel-heading">
+                    <div class="panel-options">
+                        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+                            <c:choose>
+                                <c:when test="#{p.idPermiso eq 23}">
+                                    <span style="float: right"><h:link outcome="/#{p.url}" value="#{msg.pedidoListarIngresarNuevo}">&nbsp;<i class="glyphicon glyphicon-plus"></i></h:link></span><br></br>
+                                </c:when>
+                            </c:choose>
+                        </c:forEach>                       
+                    </div>
+                </div>
+
+                <p:dataTable value="#{listarPedidos.listaPedidos}" var="lp" id="tabla" class="table" scrollable="true" scrollWidth="100%" paginator="true" rows="10" widgetVar="tabla1">
+                    <p:column headerText="#{msg.pedidoListarId}" width="200"> 
+                        <p:outputLabel value="#{lp.idPedido}"></p:outputLabel>                                
+                    </p:column>
+                    <p:column headerText="#{msg.pedidoListarNombre}" width="200" filterBy="#{lp.nombreProyecto}" filterMatchMode="contains">
+                        <p:outputLabel value="#{lp.nombreProyecto}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.pedidoListarDescripcion}" filterBy="#{lp.descripcion}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.descripcion}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.pedidoListarRealizoPago}" filterBy="#{lp.realizoPago}" filterMatchMode="contains" width="200">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabla1').filter()" style="width:150px;">
+                                <f:selectItem itemLabel="#{msg.universalPrimefacesSeleccione}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItem itemLabel="si" itemValue="1" noSelectionOption="true" />
+                                <f:selectItem itemLabel="no" itemValue="0" noSelectionOption="true" />
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <p:outputLabel value="#{(lp.realizoPago == 1 ? 'si':'no')}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.pedidoListarCantidad}" filterBy="#{lp.cantidad}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.cantidad}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.pedidoListarMateriaPrima}" filterBy="#{lp.materiasPrimaIdMateria.referencia}" filterMatchMode="exact" width="200">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabla1').filter()" style="width:150px;">
+                                <f:selectItem itemLabel="#{msg.universalPrimefacesSeleccione}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{listarPedidos.listaMateriaPrima}" var="listaMateriaPrima" itemValue="#{listaMateriaPrima.referencia}" itemLabel="#{listaMateriaPrima.referencia}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <p:outputLabel value="#{lp.materiasPrimaIdMateria.referencia}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.pedidoListarNombreCliente}" filterBy="#{lp.nombreCliente}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.nombreCliente}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.pedidoListarTelefonoCliente}" filterBy="#{lp.telefonoCliente}" filterMatchMode="contains" width="200">
+                        <p:outputLabel value="#{lp.telefonoCliente}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.pedidoListarCorreoCliente}" width="200" filterBy="#{lp.correoCliente}" filterMatchMode="contains">
+                        <p:outputLabel value="#{lp.correoCliente}"></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="Movimiento" width="200" filterBy="#{lp.movimientoProyecto}" filterMatchMode="contains">
+                        <p:outputLabel value="#{(lp.movimientoProyecto == null ? 'sin movimiento': lp.movimientoProyecto)}"></p:outputLabel>                
+                    </p:column>
+                    <p:column rendered="#{controladorSesion.p.roles.get(0).idRol eq 1 or controladorSesion.p.roles.get(0).idRol eq 2}" headerText="#{msg.pedidoListarVendedor}" width="200" filterBy="#{lp.vendedorIdPersona.nombre}" filterMatchMode="contains">
+                        <f:facet name="filter">
+                            <p:selectOneMenu onchange="PF('tabla1').filter()" style="width:150px;">
+                                <f:selectItem itemLabel="#{msg.universalPrimefacesSeleccione}" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{listarPedidos.listaPersonas}" var="listaPersonas" itemValue="#{listaPersonas.nombre}" itemLabel="#{listaPersonas.nombre}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                        <p:outputLabel value="#{lp.vendedorIdPersona.nombre} #{lp.vendedorIdPersona.apellido}"><f:convertDateTime pattern="yyyy/MM/dd" /></p:outputLabel>                
+                    </p:column>
+                    <p:column headerText="#{msg.universalOpciones}" exportable="false" width="100" style="text-align: center;">
+                        <p:row rendered="#{controladorSesion.rol == 1 || controladorSesion.rol == 2 || lp.estaAsignado == 0}">
+                            <p:row rendered="#{lp.estaAsignado != 1}">
+                                <p:commandButton icon="ui-icon-pencil" title="#{msg.universalEditar}" action="#{listarPedidos.preparacionEditar(lp)}" ajax="false"></p:commandButton>
+                            </p:row>
+                            <p:row rendered="#{lp.realizoPago == 1 and lp.estaAsignado == 0}">
+                                <p:commandButton  icon="ui-icon-extlink" title="#{msg.universalBotonAsignarOperario}" action="#{enviarPedidoAProyecto.preparacionAsignarOperario(lp)}"></p:commandButton>
+                            </p:row>
+                        </p:row>
+                    </p:column>
+                </p:dataTable>
+
+            </h:form>
+        </ui:fragment>
+    </ui:define>
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+
+        <script>
+
+        </script>
+    </ui:define>
+
+</ui:composition>

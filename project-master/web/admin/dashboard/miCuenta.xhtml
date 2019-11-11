@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/templatePerfil.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.dashboardMicuentaTitulo}
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <li >
+                        <h:link outcome="/#{p.url}">
+                            <i class="material-icons">#{p.icon}</i>
+                            <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                        </h:link>
+                    </li>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="#" class="btn btn-info ">#{msg.dashboardBreadcrumMiperfi}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.dashboardCardboardMicuenta}</h4>
+
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <h:form>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group label-floating">
+                        <label class="control-label">#{msg.dashboardMiperfilDocumento}</label>
+                        <input type="text" class="form-control" disabled="true" jsf:value="#{controladorSesion.p.documento}"></input>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group label-floating">
+                        <label class="control-label">#{msg.dashboardMiperfilNombre}</label>
+                        <input type="text" class="form-control" disabled="true" jsf:value="#{controladorSesion.p.nombre}"></input>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">#{msg.dashboardMiperfilApellido}</label>
+                        <input type="text" class="form-control" disabled="true" jsf:value="#{controladorSesion.p.apellido}"></input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group label-floating">
+                        <label class="control-label">#{msg.dashboardMiperfilTelefono}</label>
+                        <input type="text" class="form-control" disabled="true" jsf:value="#{controladorSesion.p.telefono}"></input>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group label-floating">
+                        <label class="control-label">#{msg.dashboardMiperfilDireccion}</label>
+                        <input type="text" class="form-control" disabled="true" jsf:value="#{controladorSesion.p.direccion}"></input>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">#{msg.dashboardMiperfilCorreo}</label>
+                        <input type="text" class="form-control" disabled="true" jsf:value="#{controladorSesion.p.email}"></input>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">#{msg.dashboardMiperfilArea}</label>
+                        <input type="text" class="form-control" disabled="true" jsf:value="#{controladorSesion.p.areasIdArea.nombreArea}"></input>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group label-floating">
+                        <label class="control-label">#{msg.dashboardMiperfilEstado}</label>
+                        <input type="text" class="form-control" disabled="true" jsf:value="#{controladorSesion.p.estado == 1 ? 'activo':'inactivo'}"></input>
+                    </div>
+                </div>
+            </div>
+
+            <h:commandButton action="#{listarPerfil.PrepararEditarPerfil(controladorSesion.p)}" class="btn btn-primary btn-primary pull-right" value="#{msg.universalEditar}"></h:commandButton>
+        </h:form>
+
+        <div class="clearfix"></div>
+
+    </ui:define>
+
+    <ui:define name="perfil">
+        <h:form enctype="multipart/form-data" id="form" prependId="false">
+            <p:panel id="foto_perfil" style="border-color: #fff">
+                <div class="card-avatar">
+                    <a href="#">
+                        <img  class="img" src="#{controladorSesion.p.imagen == null ? '../../resources/img/inicial.jpg': controladorSesion.p.imagen}"/>
+                    </a>
+                </div>
+            </p:panel>
+            <div class="content">
+                <h6 class="category text-gray">#{msg.dashboardMiperfilFoto}</h6>
+                <h4 class="card-title"></h4>
+                <p class="card-content">
+                </p>
+
+                <div id="form-group" align="center" style="margin-bottom: 25px">
+                    <h:panelGrid columns="1" cellpadding="5">
+                        <b:commandButton value="#{msg.dashboardMiperfilCargarFoto}" class="btn btn-primary btn-primary" type="button" onclick="PF('dlg1').show();" />
+                    </h:panelGrid>
+                </div>
+                <p:dialog header="Carga de foto" widgetVar="dlg1" minWidth="666">
+                    <p:fileUpload style="width:100%;" fileUploadListener="#{fileUploadPhoto.upload()}" mode="advanced" dragDropSupport="false"
+                                  fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" update="foto_perfil"/>
+                </p:dialog>
+
+                <!--<a href="#pablo" class="btn btn-primary btn-round">Cambiar foto de perfil</a>-->
+            </div>
+        </h:form>
+
+    </ui:define>
+
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+
+        <script>
+
+        </script>
+    </ui:define>
+
+</ui:composition>

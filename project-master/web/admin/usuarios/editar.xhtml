@@ -1,0 +1,281 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/WEB-INF/resources/template2/administrador/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:b="http://bootsfaces.net/ui">
+    <ui:define name="primerosScripts">
+        <link href="#{request.contextPath}/resources/formValidation/css/formValidation.css" rel="stylesheet" />
+        <script src="#{request.contextPath}/resources/formValidation/js/formValidation.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/formValidation/js/framework/bootstrap.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/resources/formValidation/js/language/es_ES.js" type="text/javascript" ></script>
+    </ui:define>
+
+    <!--Nombre de la pagina-->
+    <ui:define name="titulo">
+        #{msg.usuarioEditarTitulo}
+    </ui:define>
+
+    <!--renderizacion del menu principal-->
+    <ui:define name="menu">
+        <c:forEach items="#{controladorSesion.rolSeleccionado.permisos}" var="p">
+            <c:if test="#{p.permisoPadre eq null}">
+                <c:if test="#{p.idPermiso != 43 and p.idPermiso != 8}">
+                    <!--valida el menu actual para renderizar la opcion active-->
+                    <c:choose>
+                        <c:when test="#{p.idPermiso == 1}">
+                            <li class="active">
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li >
+                                <h:link outcome="/#{p.url}">
+                                    <i class="material-icons">#{p.icon}</i>
+                                    <p>#{(idioma.languageSelect.language.startsWith('es', 0) ? p.nombrePermiso: p.nombrePermisoEn)}</p>
+                                </h:link>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </c:if>
+            </c:if>
+        </c:forEach>
+    </ui:define>
+
+    <!--renderizacion del breadcrumb-->
+    <ui:define name="breadcrumb">
+        <a href="/foie_gras/admin/index.xhtml" class="btn btn-default visible-lg-block visible-md-block"><i class="glyphicon glyphicon-home"></i></a>
+        <a href="/foie_gras/admin/usuarios/listarUsuarios.xhtml" class="btn btn-default visible-lg-block visible-md-block ">#{msg.usuarioBreadcrumListarUsuario}</a>
+        <a href="#" class="btn btn-info ">#{msg.usuarioBreadcrumEditarUsuario}</a>
+    </ui:define>
+
+    <!--renderizacion del cardboard-->
+    <ui:define name="tituloCarta">
+        <h4 class="title">#{msg.usuarioCardboardEditarUsuario}</h4>
+    </ui:define>
+
+    <!--renderizacion del body 'contenido principal'-->
+    <ui:define name="contenido">
+        <ui:fragment rendered="#{controladorSesion.p.roles.get(0).idRol eq 1 or controladorSesion.p.roles.get(0).idRol eq 2}">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content-box-large">
+                        <div class="panel-body">
+
+                            <h:form id="form" prependId="false" class="form-horizontal" role="form">
+
+                                <b:row>
+                                    <b:messages large-screen="full-width" />
+                                </b:row>
+
+                                <div class="form-group">
+                                    <label for="documento" class="col-sm-2 control-label">#{msg.usuarioEditarDocumento}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="documento" class="form-control" id="documento" a:placeholder="#{msg.usuarioEditarDocumentoPlaceholder}" value="#{listarUsuarios.personaSeleccionado.documento}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="nombre" class="col-sm-2 control-label">#{msg.usuarioEditarNombre}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="nombre" class="form-control" id="nombre" a:placeholder="#{msg.usuarioEditarNombrePlaceholder}" value="#{listarUsuarios.personaSeleccionado.nombre}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="apellido" class="col-sm-2 control-label">#{msg.usuarioEditarApellido}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="apellido" class="form-control" id="apellido" a:placeholder="#{msg.usuarioEditarApellidoPlaceholder}" value="#{listarUsuarios.personaSeleccionado.apellido}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="contraseña" class="col-sm-2 control-label">#{msg.usuarioEditarPassword}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="contraseña" class="form-control" id="contraseña" a:placeholder="#{msg.usuarioEditarPassword}" value="#{listarUsuarios.personaSeleccionado.password}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="telefono" class="col-sm-2 control-label">#{msg.usuarioEditarTelefono}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="telefono" class="form-control" id="telefono" a:placeholder="#{msg.usuarioEditarTelefonoPlaceholder}" value="#{listarUsuarios.personaSeleccionado.telefono}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="direccion" class="col-sm-2 control-label">#{msg.usuarioEditarDireccion}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="direccion" class="form-control" id="direccion" a:placeholder="#{msg.usuarioEditarDireccionPlaceholder}" value="#{listarUsuarios.personaSeleccionado.direccion}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="col-sm-2 control-label">#{msg.usuarioEditarCorreo}</label>
+                                    <div class="col-sm-10">
+                                        <h:inputText a:name="email" class="form-control" id="email" a:placeholder="#{msg.usuarioEditarCorreoPlaceholder}" value="#{listarUsuarios.personaSeleccionado.email}" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="estado" class="col-sm-2 control-label">#{msg.usuarioEditarEstado}</label>
+                                    <div class="col-sm-10">
+                                        <b:selectOneMenu value = "#{listarUsuarios.personaSeleccionado.estado}" > 
+                                            <f:selectItem itemValue="1" itemLabel = "#{msg.usuarioEditarEstadoActivo}" /> 
+                                            <f:selectItem itemValue="0" itemLabel = "#{msg.usuarioEditarEstadoInactivo}"  /> 
+                                        </b:selectOneMenu> 	
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="area" class="col-sm-2 control-label">#{msg.usuarioEditarArea}</label>
+                                    <div class="col-sm-10">
+                                        <b:selectOneMenu value = "#{listarUsuarios.personaSeleccionado.areasIdArea}" > 
+                                            <f:selectItems value="#{listarUsuarios.listaAreas}" var="la" itemLabel = "#{la.nombreArea}" /> 
+                                        </b:selectOneMenu> 	
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="rol" class="col-sm-2 control-label">#{msg.usuarioEditarRol}</label>
+                                    <div class="col-sm-10">
+                                        <b:selectOneMenu value = "#{listarUsuarios.rol}" > 
+                                            <f:selectItems value="#{listarUsuarios.listaRoles}" var="rl" itemLabel = "#{rl.nombreRol}" /> 
+                                        </b:selectOneMenu> 	
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fechaNacimiento" class="col-sm-2 control-label">#{msg.usuarioEditarFechaNacimiento}</label>
+                                    <div class="col-sm-10">
+                                        <p:calendar id="fechaNacimiento" value="#{listarUsuarios.personaSeleccionado.fechaNacimiento}" locale="de" navigator="true" pattern="yyyy-MM-dd" />                                </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-3">
+                                        <b:commandButton action="#{listarUsuarios.actualizarUsuario()}" class="btn btn-primary" value="#{msg.universalBotonAceptar}"></b:commandButton>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <h:link styleClass="btn btn" outcome="/admin/usuarios/listarUsuarios.xhtml?faces-redirect=true" value="#{msg.universalBotonCancelar}"/>
+                                    </div>
+                                </div>
+
+                            </h:form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </ui:fragment>
+    </ui:define>
+
+    <!--renderizacion de los ultimos scripts(solo en caso de que fallen los scripts en la pagina)-->
+    <ui:define name="ultimosScripts">
+        <script>
+
+            $(document).ready(function () {
+                $('#form').formValidation({
+                    locale: "#{(idioma.languageSelect.language.startsWith('es', 0) ? 'es_ES': 'en_US')}",
+                    framework: 'bootstrap',
+                    icon: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        nombre: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+                        apellido: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+
+                        contraseña: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 6,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+
+                        direccion: {
+                            validators: {
+                                notEmpty: {
+                                    message: ''
+                                },
+                                stringLength: {
+                                    min: 5,
+                                    max: 30,
+                                    message: ''
+                                },
+                            }
+                        },
+
+                        email: {
+                            validators: {
+                                notEmpty: {
+
+                                },
+                                emailAddress: {
+
+                                }
+                            }
+                        },
+
+                        documento: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                            }
+                        },
+
+                        telefono: {
+                            validators: {
+                                notEmpty: {},
+                                digits: {},
+                                phone: {
+                                    country: 'CO'
+                                }
+                            }
+                        },
+                    }
+                });
+            });
+        </script>
+    </ui:define>
+
+</ui:composition>

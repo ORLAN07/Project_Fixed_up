@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:b="http://bootsfaces.net/ui">
+
+    <div class="container-fluid">
+        <p class="copyright pull-right">
+            &copy; <script>document.write(new Date().getFullYear())</script> <a href="#">Fixed up</a>
+        </p>
+    </div>
+
+    <!--   Core JS Files   -->
+    <!--<script src="#{request.contextPath}/resources/assets/js/jquery-3.1.0.min.js" type="text/javascript"></script>-->
+    <script src="#{request.contextPath}/resources/assets/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="#{request.contextPath}/resources/assets/js/material.min.js" type="text/javascript"></script>
+    <link rel="icon" type="image/png" href="assets/img/F_icon.jpg"></link>
+
+    <!--  Charts Plugin -->
+    <script src="#{request.contextPath}/resources/assets/js/chartist.min.js"></script>
+
+    <!--  Notifications Plugin    -->
+    <script src="#{request.contextPath}/resources/assets/js/bootstrap-notify.js"></script>
+
+    <!-- Material Dashboard javascript methods -->
+    <script src="#{request.contextPath}/resources/assets/js/material-dashboard.js"></script>
+    <h:form>
+        <p:poll update="txt_count" interval="8" listener="#{controladorSesion.pollNotificaciones()}" />
+    </h:form>
+    <ui:insert name="ultimosScripts">
+
+    </ui:insert>
+
+</ui:fragment>
+

@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+             xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h:form prependId="false">
+        <nav class="navbar navbar-transparent navbar-absolute">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div class="btn-group btn-breadcrumb breadcrumb-default">
+                        <ui:insert name="breadcrumb">
+                            "no se cargo los breadcrumbs" 
+                        </ui:insert>
+                    </div>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">translate</i>
+                                <p class="hidden-lg hidden-md">#{msg.idioma}</p>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <c:forEach items="#{idioma.supportLanguages}" var="l" >
+                                    <li>
+                                        <h:commandLink value="#{msg[l.displayLanguage]}" action="#{idioma.cambiarIdioma(l)}"></h:commandLink>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                                <i class="material-icons">notifications</i>
+                                <h:panelGroup id="txt_count"><span jsf:rendered="#{controladorSesion.listaNotificaciones.size() > 0}" class="notification"><h:outputText  value="#{controladorSesion.listaNotificaciones.size()}" ></h:outputText></span></h:panelGroup>
+                                <p class="hidden-lg hidden-md">#{msg.templateHeaderNotificaciones}</p>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><h:commandLink value="#{msg.templateHeaderNotificaciones}" action="#{controladorSesion.leerNotificacion()}"></h:commandLink></li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="material-icons">person</i>
+                                <p class="hidden-lg hidden-md">#{msg.templateHeaderOpciones}</p>
+                            </a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="#{request.contextPath}/admin/dashboard/miCuenta.xhtml">#{msg.templateHeaderMiPerfil}</a></li>
+                                <li><a href="#{request.contextPath}/admin/dashboard/Enviarcorreos.xhtml">#{msg.templateHeaderEnvioCorreos}</a></li>
+                                <li><a jsf:actionListener="#{controladorSesion.cerrarSesion()}">#{msg.templateHeaderCerrarSesion}</a></li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+
+    </h:form>
+
+</ui:fragment>
+
